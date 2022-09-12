@@ -9,10 +9,8 @@ class Application < Sinatra::Base
     register Sinatra::Reloader
   end
 
-
-  # return the text 'Hello [NAME]', where [NAME] is replaced by the value of the name query parameter.
   get '/' do
-    return "bananas"
+    return "Bananas!"
   end
 
   get '/hello' do
@@ -20,29 +18,13 @@ class Application < Sinatra::Base
     return "Hello #{name}"
   end
 
+  post '/submit' do
+    name = params[:name]
+    message = params[:message]
+    return "Thanks #{name}, you sent this message: #{message}"
+  end
+
 end
-
-
-
-#reference:
-
-# post '/' do
-#   # This route is not executed (the method doesn't match).
-# end
-
-# get '/hello' do
-#   # This route is not executed (the path doesn't match).    
-# end
-
-# get '/' do
-#   # This route matches! The code inside the block will be executed now.
-# end
-
-# get '/' do
-#   # This route matches too, but will not be executed.
-#   # Only the first one matching (above) is.
-# end
-
 
 # # original
 
