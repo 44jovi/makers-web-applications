@@ -9,24 +9,39 @@ class Application < Sinatra::Base
     register Sinatra::Reloader
   end
 
-  post '/' do
-    # This route is not executed (the method doesn't match).
+
+  # return the text 'Hello [NAME]', where [NAME] is replaced by the value of the name query parameter.
+  get '/' do
+    return "bananas"
   end
 
   get '/hello' do
-    # This route is not executed (the path doesn't match).    
+    name = params[:name]
+    return "Hello #{name}"
   end
 
-  get '/' do
-    # This route matches! The code inside the block will be executed now.
-  end
-
-  get '/' do
-    # This route matches too, but will not be executed.
-    # Only the first one matching (above) is.
-  end
 end
 
+
+
+#reference:
+
+# post '/' do
+#   # This route is not executed (the method doesn't match).
+# end
+
+# get '/hello' do
+#   # This route is not executed (the path doesn't match).    
+# end
+
+# get '/' do
+#   # This route matches! The code inside the block will be executed now.
+# end
+
+# get '/' do
+#   # This route matches too, but will not be executed.
+#   # Only the first one matching (above) is.
+# end
 
 
 # # original
