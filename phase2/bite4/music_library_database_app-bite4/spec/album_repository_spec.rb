@@ -3,7 +3,9 @@ require 'album_repository'
 
 def reset_albums_table
   seed_sql = File.read('spec/seeds/albums_seeds.sql')
-  connection = PG.connect({ host: '127.0.0.1', dbname: 'music_library_test' })
+  user = ENV['PGUSER1']
+  password = ENV['PGPASSWORD']
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'music_library_test', user: user, password: password })
   connection.exec(seed_sql)
 end
 
