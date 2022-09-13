@@ -29,17 +29,17 @@ describe Application do
   # ------------------
 
   context 'GET /albums' do
-    it 'returns all albums' do
+    it 'returns list of all albums with links' do
       response = get('/albums')
 
       expect(response.status).to eq(200)
       expect(response.body).to include("<h1>All Albums</h1>")     
       expect(response.body).to include("Title: Doolittle")
       expect(response.body).to include("Released: 1989")  
-      expect(response.body).to include('<a href="/albums/1')            
+      expect(response.body).to include('<a href="/albums/1">')            
       expect(response.body).to include("Title: Surfer Rosa")      
       expect(response.body).to include("Released: 1988")
-      expect(response.body).to include('<a href="/albums/2')
+      expect(response.body).to include('<a href="/albums/2">')
     end
   end
 
@@ -51,16 +51,6 @@ describe Application do
 
       expect(response.body).to include("<h1>Doolittle</h1>")
       expect(response.body).to include("Release year: 1989")
-      expect(response.body).to include("Artist: Pixies")
-    end
-
-    it "returns details of a specified album ('Surfa Rosa')" do
-      response = get("/albums/2")
-      
-      expect(response.status).to eq(200)
-
-      expect(response.body).to include("<h1>Surfer Rosa</h1>")
-      expect(response.body).to include("Release year: 1988")
       expect(response.body).to include("Artist: Pixies")
     end
   end
@@ -77,8 +67,8 @@ describe Application do
       expect(response.status).to eq(200)
       expect(response.body).to eq('Album created!')
 
-      # check to see if it appears on new list of albums:
       response = get('/albums')
+
       expect(response.body).to include('Bleach')
     end
   end
@@ -88,12 +78,25 @@ describe Application do
   # ------------------
 
   context "GET /artists" do
-    it 'returns 200 OK and list of artists' do
+    it 'returns list of all artists with links' do
       response = get('/artists')
-      expected_response = "Pixies, ABBA, Taylor Swift, Nina Simone"
 
       expect(response.status).to eq(200)
-      expect(response.body).to eq(expected_response)
+      expect(response.body).to include("<h1>All Artists</h1>")
+      expect(response.body).to include("Pixies")
+      expect(response.body).to include('<a href="/artists/1">')
+      expect(response.body).to include("ABBA")
+      expect(response.body).to include('<a href="/artists/2">')
+    end
+  end
+  
+  context "GET /artists/:id" do
+    it "returns details of a specified artist ('Doolittle')" do
+      response = get("/artists/1")
+      
+      expect(response.status).to eq(200)
+      expect(response.body).to include("<h1>Pixies</h1>")
+      expect(response.body).to include("Genre: Rock")
     end
   end
 
