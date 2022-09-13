@@ -35,9 +35,11 @@ describe Application do
       expect(response.status).to eq(200)
       expect(response.body).to include("<h1>All Albums</h1>")     
       expect(response.body).to include("Title: Doolittle")
-      expect(response.body).to include("Released: 1989")      
+      expect(response.body).to include("Released: 1989")  
+      expect(response.body).to include('<a href="/albums/1')            
       expect(response.body).to include("Title: Surfer Rosa")      
       expect(response.body).to include("Released: 1988")
+      expect(response.body).to include('<a href="/albums/2')
     end
   end
 

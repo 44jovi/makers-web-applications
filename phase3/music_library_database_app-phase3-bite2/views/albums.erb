@@ -4,9 +4,10 @@
     <h1>All Albums</h1>
     <% @albums.each do |album| %>
       <div>
-        Title: <%= album.title %> | 
-        Released: <%= album.release_year %>
-      </div>
+        Title: <%= album.title %> |
+        Released: <%= album.release_year %> |
+        <a href="/albums/<%= album.id%>"> View more info </a>
+      </div>      
     <% end %>
   </body>
 </html>
