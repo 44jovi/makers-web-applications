@@ -47,7 +47,15 @@ class Application < Sinatra::Base
     repo = AlbumRepository.new
     repo.create(album)
 
+    if invalid_album_request_parameters?
+      return status 400  
+    end
+
     return "Album created!"
+  end
+
+  def invalid_album_request_parameters?
+    params[:title] == nil || params[:release_year] == nil || params[:artist_id] == nil
   end
 
   # --------
@@ -78,8 +86,16 @@ class Application < Sinatra::Base
     repo = ArtistRepository.new
     repo.create(artist)
 
+    if invalid_artist_request_parameters?
+      status 400
+    end
+
     return "Artist created!"
   end
+end
+
+def invalid_artist_request_parameters?
+  params[:name] == nil ||  params[:genre] == nil 
 end
 
 # # my original solution for get '/albums/:id'

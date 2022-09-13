@@ -49,9 +49,9 @@ describe Application do
       
       expect(response.status).to eq(200)
       expect(response.body).to include('<form action="/albums" method="POST">')
-      expect(response.body).to include('<input type="text" name="title" value="Album title">')
-      expect(response.body).to include('<input type="text" name="release_year" value="Release Year">')
-      expect(response.body).to include('<input type="text" name="artist_id" value="Artist ID">')
+      expect(response.body).to include('<input type="text" name="title">')
+      expect(response.body).to include('<input type="text" name="release_year">')
+      expect(response.body).to include('<input type="text" name="artist_id">')
       expect(response.body).to include('<input type="submit" value="Submit">')
     end
   end
@@ -83,6 +83,11 @@ describe Application do
 
       expect(response.body).to include('Bleach')
     end
+
+    it 'responds with status 400 if invalid parameters given' do
+      response = post('/albums', title: nil, release_year: "2022", artist_id: "2" )
+      expect(response.status).to eq(400)
+    end
   end
 
   # ------------------
@@ -108,8 +113,8 @@ describe Application do
       
       expect(response.status).to eq(200)
       expect(response.body).to include('<form action="/artists" method="POST">')
-      expect(response.body).to include('<input type="text" name="name" value="Artist">')
-      expect(response.body).to include('<input type="text" name="genre" value="Genre">')
+      expect(response.body).to include('<input type="text" name="name">')
+      expect(response.body).to include('<input type="text" name="genre">')
       expect(response.body).to include('<input type="submit" value="Submit">')
     end
   end
@@ -138,6 +143,11 @@ describe Application do
 
       response = get('/artists')
       expect(response.body).to include('Wild nothing')
+    end
+
+    it 'responds with status 400 if invalid parameters given' do
+      response = post('/artists', name: nil, genre: "K-Pop")
+      expect(response.status).to eq(400)
     end
   end
 
