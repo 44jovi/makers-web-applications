@@ -19,6 +19,11 @@ describe Application do
       expect(response.status).to eq(200)
       expect(response.body).to eq(result)      
     end
+
+    it 'returns 404 Not Found' do
+      response = post('/qwerty123456')
+      expect(response.status).to eq(404)
+    end
   end
 
   context "POST /albums" do
@@ -39,8 +44,7 @@ describe Application do
     end
 
     it 'returns 404 Not Found' do
-      response = post('/albumsqwerty')
-
+      response = post('/qwerty123456')
       expect(response.status).to eq(404)
     end
   end
