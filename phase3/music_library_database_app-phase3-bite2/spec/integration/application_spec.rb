@@ -43,12 +43,24 @@ describe Application do
     end
   end
 
+  context "GET /albums/new" do
+    it "returns a form page to input new album details" do
+      response = get("/albums/new")
+      
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<form action="/albums" method="POST">')
+      expect(response.body).to include('<input type="text" name="title" value="Album title">')
+      expect(response.body).to include('<input type="text" name="release_year" value="Release Year">')
+      expect(response.body).to include('<input type="text" name="artist_id" value="Artist ID">')
+      expect(response.body).to include('<input type="submit" value="Submit">')
+    end
+  end
+
   context "GET /albums/:id" do
     it "returns details of a specified album ('Doolittle')" do
       response = get("/albums/1")
       
       expect(response.status).to eq(200)
-
       expect(response.body).to include("<h1>Doolittle</h1>")
       expect(response.body).to include("Release year: 1989")
       expect(response.body).to include("Artist: Pixies")
@@ -89,6 +101,19 @@ describe Application do
       expect(response.body).to include('<a href="/artists/2">')
     end
   end
+
+  context "GET /artists/new" do
+    it "returns a form page to input new artist details" do
+      response = get("/artists/new")
+      
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<form action="/artists" method="POST">')
+      expect(response.body).to include('<input type="text" name="name" value="Artist">')
+      expect(response.body).to include('<input type="text" name="genre" value="Genre">')
+      expect(response.body).to include('<input type="submit" value="Submit">')
+    end
+  end
+
   
   context "GET /artists/:id" do
     it "returns details of a specified artist ('Doolittle')" do
@@ -109,7 +134,7 @@ describe Application do
       )
 
       expect(response.status).to eq(200)
-      expect(response.body).to eq('')
+      expect(response.body).to eq('Artist created!')
 
       response = get('/artists')
       expect(response.body).to include('Wild nothing')

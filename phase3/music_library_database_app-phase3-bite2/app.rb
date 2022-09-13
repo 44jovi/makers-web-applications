@@ -14,9 +14,17 @@ class Application < Sinatra::Base
     also_reload 'lib/artist_repository'
   end
 
+  # -------
+  # /albums
+  # -------
+
   get '/albums' do
     @albums = AlbumRepository.new.all
     return erb(:albums)
+  end
+
+  get '/albums/new' do
+    return erb(:albums_new)
   end
 
   # see end of this file for my original inefficient solution
@@ -42,9 +50,17 @@ class Application < Sinatra::Base
     return "Album created!"
   end
 
+  # --------
+  # /artists
+  # --------
+
   get '/artists' do
     @artists = ArtistRepository.new.all
     return erb(:artists)
+  end
+
+  get '/artists/new' do
+    return erb(:artists_new)
   end
 
   get '/artists/:id' do
@@ -62,11 +78,8 @@ class Application < Sinatra::Base
     repo = ArtistRepository.new
     repo.create(artist)
 
-    return "" # this time return nothing, unlike when POST /albums
+    return "Artist created!"
   end
-
-
-
 end
 
 # # my original solution for get '/albums/:id'
