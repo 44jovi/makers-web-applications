@@ -35,6 +35,26 @@ class Application < Sinatra::Base
     return "Album created!"
   end
 
+  get '/artists' do
+    repo = ArtistRepository.new
+    artists = repo.all
+
+    response = artists.map do |artist|
+      artist.name
+    end.join(', ')
+  end
+
+  post '/artists' do
+    artist = Artist.new         
+    artist.name = params[:name]
+    artist.genre = params[:genre]
+
+    repo = ArtistRepository.new
+    repo.create(artist)
+
+    return "" # this time return nothing, unlike when POST /albums
+  end
+
 
 
 end
