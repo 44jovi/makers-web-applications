@@ -2,35 +2,29 @@ require "spec_helper"
 require "rack/test"
 require_relative '../../app'
 
-def reset_albums_table
-  seed_sql = File.read('spec/seeds/albums_seeds.sql')
+def reset_database_tables
+  seed_sql_1 = File.read('spec/seeds/artists_seeds.sql')
+  seed_sql_2 = File.read('spec/seeds/albums_seeds.sql')
   user = ENV['PGUSER1']
   password = ENV['PGPASSWORD']
   connection = PG.connect({ host: '127.0.0.1', dbname: 'music_library_test', user: user, password: password })
-  connection.exec(seed_sql)
-end
-
-def reset_artists_table
-  seed_sql = File.read('spec/seeds/artists_seeds.sql')
-  user = ENV['PGUSER1']
-  password = ENV['PGPASSWORD']
-  connection = PG.connect({ host: '127.0.0.1', dbname: 'music_library_test', user: user, password: password })
-  connection.exec(seed_sql)
+  connection.exec(seed_sql_1)
+  connection.exec(seed_sql_2)
 end
 
 describe Application do
-  # reset tables before each test
-  before(:each) do 
-    reset_albums_table    
-    reset_artists_table
+  
+  before(:each) do
+    reset_database_tables
   end
 
-  # This is so we can use rack-test helper methods.
   include Rack::Test::Methods
 
-  # We need to declare the `app` value by instantiating the Application
-  # class so our tests work.
   let(:app) { Application.new }
+
+  # ------------------
+  # tests for /albums
+  # ------------------
 
   context 'GET /albums' do
     it 'returns all albums' do
@@ -91,7 +85,11 @@ describe Application do
       response = post('/qwerty123456')
       expect(response.status).to eq(404)
     end
-  end  
+  end
+
+  # ------------------
+  # tests for /artists
+  # ------------------
 
   context "GET /artists" do
     it 'returns 200 OK and list of artists' do
