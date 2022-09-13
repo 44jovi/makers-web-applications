@@ -13,7 +13,9 @@ def reset_database_tables
 end
 
 describe Application do
-  
+
+  # for this project we will skip 404 errors to reduce number of tests
+
   before(:each) do
     reset_database_tables
   end
@@ -30,15 +32,12 @@ describe Application do
     it 'returns all albums' do
       response = get('/albums')
 
-      expected_response = 'Doolittle, Surfer Rosa, Waterloo, Super Trouper, Bossanova, Lover, Folklore, I Put a Spell on You, Baltimore, Here Comes the Sun, Fodder on My Wings, Ring Ring'
-
       expect(response.status).to eq(200)
-      expect(response.body).to eq(expected_response)      
-    end
-
-    it 'returns 404 Not Found' do
-      response = post('/qwerty123456')
-      expect(response.status).to eq(404)
+      expect(response.body).to include("<h1>All Albums</h1>")     
+      expect(response.body).to include("Title: Doolittle")
+      expect(response.body).to include("Released: 1989")      
+      expect(response.body).to include("Title: Surfer Rosa")      
+      expect(response.body).to include("Released: 1988")
     end
   end
 
@@ -80,11 +79,6 @@ describe Application do
       response = get('/albums')
       expect(response.body).to include('Bleach')
     end
-
-    it 'returns 404 Not Found' do
-      response = post('/qwerty123456')
-      expect(response.status).to eq(404)
-    end
   end
 
   # ------------------
@@ -98,12 +92,6 @@ describe Application do
 
       expect(response.status).to eq(200)
       expect(response.body).to eq(expected_response)
-    end
-
-    it 'returns 404 Not Found' do
-      response = get('/qwerty123456')
-
-      expect(response.status).to eq(404)
     end
   end
 
@@ -120,12 +108,6 @@ describe Application do
 
       response = get('/artists')
       expect(response.body).to include('Wild nothing')
-    end
-
-    it 'returns 404 Not Found' do
-      response = post('/qwerty123456')
-
-      expect(response.status).to eq(404)
     end
   end
 

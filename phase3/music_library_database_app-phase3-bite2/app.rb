@@ -15,12 +15,8 @@ class Application < Sinatra::Base
   end
 
   get '/albums' do
-    repo = AlbumRepository.new
-    albums = repo.all
-
-    response = albums.map do |album|
-      album.title
-    end.join(', ')
+    @albums = AlbumRepository.new.all
+    return erb(:albums)
   end
 
   # see end of this file for my original inefficient solution
