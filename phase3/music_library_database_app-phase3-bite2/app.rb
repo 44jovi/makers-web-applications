@@ -39,6 +39,12 @@ class Application < Sinatra::Base
   end
 
   post '/albums' do
+    
+    if invalid_album_request_parameters?
+      status 400
+      return "Invalid input!"
+    end
+
     album = Album.new         
     album.title = params[:title]
     album.release_year = params[:release_year]
@@ -47,14 +53,11 @@ class Application < Sinatra::Base
     repo = AlbumRepository.new
     repo.create(album)
 
-    if invalid_album_request_parameters?
-      return status 400  
-    end
-
     return "Album created!"
   end
 
   def invalid_album_request_parameters?
+    # currently doesn't check for empty string input
     params[:title] == nil || params[:release_year] == nil || params[:artist_id] == nil
   end
 
@@ -79,6 +82,12 @@ class Application < Sinatra::Base
   end
 
   post '/artists' do
+    
+    if invalid_artist_request_parameters?
+      status 400
+      return "Invalid input!"
+    end
+
     artist = Artist.new         
     artist.name = params[:name]
     artist.genre = params[:genre]
@@ -86,20 +95,17 @@ class Application < Sinatra::Base
     repo = ArtistRepository.new
     repo.create(artist)
 
-    if invalid_artist_request_parameters?
-      status 400
-    end
-
     return "Artist created!"
   end
 end
 
 def invalid_artist_request_parameters?
+  # currently doesn't check for empty string input
   params[:name] == nil ||  params[:genre] == nil 
 end
 
 # # my original solution for get '/albums/:id'
-# get '/albums/:id' do
+#   get '/albums/:id' do
 #   repo = AlbumRepository.new
 #   album = repo.find(params[:id])
 

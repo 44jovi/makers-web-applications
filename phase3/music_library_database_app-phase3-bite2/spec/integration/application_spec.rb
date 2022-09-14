@@ -87,6 +87,7 @@ describe Application do
     it 'responds with status 400 if invalid parameters given' do
       response = post('/albums', title: nil, release_year: "2022", artist_id: "2" )
       expect(response.status).to eq(400)
+      expect(response.body).to include("Invalid input!")
     end
   end
 
@@ -148,6 +149,7 @@ describe Application do
     it 'responds with status 400 if invalid parameters given' do
       response = post('/artists', name: nil, genre: "K-Pop")
       expect(response.status).to eq(400)
+      expect(response.body).to include("Invalid input!")
     end
   end
 
