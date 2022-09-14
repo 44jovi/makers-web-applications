@@ -27,5 +27,12 @@ describe Application do
       expect(response.status).to eq(200)
       expect(response.body).to include('Hi Aurora!')
     end
+
+    it 'returns error if input is not alphanueric or if contains a space' do
+      response = post('/hello', name: 'Auroroa!"£$%^&*()')
+
+      expect(response.status).to eq(400)
+      expect(response.body).to include('Invalid input!')
+    end
   end
 end
